@@ -14,8 +14,7 @@ public class TODO {
   public TODO() {
   }
 
-  public TODO(long id, String title) {
-    this.id = id;
+  public TODO(String title) {
     this.title = title;
   }
 
@@ -29,19 +28,6 @@ public class TODO {
 
   public void setTitle(String title) {
     this.title = title;
-  }
-
-  public TODO title(String title) {
-    this.title = title;
-    return this;
-  }
-
-  @Override
-  public String toString() {
-    return "{" +
-      " id='" + getId() + "'" +
-      ", title='" + getTitle() + "'" +
-      "}";
   }
 
 }
