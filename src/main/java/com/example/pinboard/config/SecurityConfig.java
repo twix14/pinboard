@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   UserService service;
   
   @Override
-  protected void configure(HttpSecurity httpSecurity) throws Exception{
+  protected void configure(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
       .csrf().disable()
       .authorizeRequests()

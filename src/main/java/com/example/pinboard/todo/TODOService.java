@@ -2,35 +2,43 @@ package com.example.pinboard.todo;
 
 import java.util.List;
 
+import com.example.pinboard.user.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TODOService {
 
   @Autowired // repository injected
-  private TODORepository repository;
+  private TODORepository todoRepository;
+  @Autowired
+  private UserRepository userRepository;
 
   public TODO saveTODO(TODO todo) {
-    return repository.save(todo);
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    todo.setUser(userRepository.findByUsername(username));
+    return todoRepository.save(todo);
   }
 
   public List<TODO> getTODOs() {
-    return repository.findAll();
+    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+    return todoRepository.findAllByUser(username);
   }
 
   public TODO getTODOById(long id) {
-    return repository.findById(id).orElse(null);
+    return todoRepository.findById(id).orElse(null);
   }
 
   public void deleteTODO(long id) {
-    repository.deleteById(id);
+    todoRepository.deleteById(id);
   }
 
   public TODO updateTODO(TODO todo) {
-    TODO existingTODO = repository.findById(todo.getId()).orElse(null);
+    TODO existingTODO = todoRepository.findById(todo.getId()).orElse(null);
     existingTODO.setTitle(todo.getTitle());
-    return repository.save(existingTODO);
+    return todoRepository.save(existingTODO);
   }
   
 }
